@@ -14,16 +14,15 @@ library(rpart)
 library(rpart.plot)
 library(caret)
 library(tidyr)
-library(MASS)
 
 dir <- "/Users/hosea/Documents/R/edX-Datascience-Harvard/Capstone/Wine/WineQT.csv"
 df <- read.csv(dir)
 
 vars <- colnames(df)
-df <- df %>% mutate(quality = as.factor(quality))
+# df <- df %>% mutate(quality = as.factor(quality)) 
 
 head(df)
-head(dftall)
+head(df)
 ```
 
 Preliminary analysis and so on and so on 
@@ -41,10 +40,6 @@ ggplot(data = dftall) + geom_point(aes(x= measurement,y=quality, col = variable)
 meanVars <- df %>% group_by(quality)  %>% 
   summarise_if(is.numeric, mean)
 
-meanVarstall <- meanVars %>%
-  gather(variable,avgMeasurement,fixed.acidity:alcohol) %>%
-  select(-Id)
-
 #Plot each variable
 ggplot(data = meanVars) + geom_point(aes(x=fixed.acidity,y=quality))
 ggplot(data = meanVars) + geom_point(aes(x=volatile.acidity,y=quality))
@@ -59,7 +54,6 @@ ggplot(data = meanVars) + geom_point(aes(x=sulphates,y=quality))
 ggplot(data = meanVars) + geom_point(aes(x=alcohol,y=quality))
 
 
-#But avergaes or means??????
 df %>%
   mutate(qlty = as.factor(quality)) %>%
   ggplot(aes(y = fixed.acidity, group = qlty)) +
@@ -71,9 +65,9 @@ Linear - volatile acidity, citric acid, chlorides
 
 ```{r}
 
-logomodel <- polr(quality ~  volatile.acidity + chlorides + total.sulfur.dioxide + sulphates + alcohol + pH + sulphates + total.sulfur.dioxide , Hess = T, data = df,) 
-summary(logomodel)
-
+lmodel <- lm(quality ~  volatile.acidity + chlorides + total.sulfur.dioxide + sulphates + alcohol + pH + sulphates + total.sulfur.dioxide , Hess = T, data = df) 
+summary(lmodel)
+plot(lmodel)
 ```
 
 
