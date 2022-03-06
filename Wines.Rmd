@@ -70,7 +70,6 @@ summary(lmodel)
 plot(lmodel)
 ```
 
-Meh
 
 
 
